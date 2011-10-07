@@ -1,0 +1,26 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+    xmlns:g="urn:import:com.google.gwt.user.client.ui">
+    <ui:style>
+        .popup {
+        	padding: 0px 15px;
+        	border: 3px black;
+        	background-color: lightsteelblue;
+        }
+        
+        .bold {
+          font-weight: bold;
+        }
+    </ui:style>
+
+    <g:PopupPanel autoHideOnHistoryEventsEnabled="true"
+        autoHideEnabled="true" styleName="{style.popup}">
+        <g:HTMLPanel>
+            <p class="{style.bold}">
+                Login problems. 
+                <br />
+                Make sure that your username and password are correct.                
+            </p>
+        </g:HTMLPanel>
+    </g:PopupPanel>
+</ui:UiBinder> 

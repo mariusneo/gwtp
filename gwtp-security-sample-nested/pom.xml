@@ -1,0 +1,135 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.gwtp.security.sample</groupId>
+  <artifactId>gwtp-security-sample-nested</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  
+  	<properties>
+		<gin.version>1.5.0</gin.version>
+		<guice.version>3.0</guice.version>
+		<aopalliance.version>1.0</aopalliance.version>
+		<gwt.version>2.4.0</gwt.version>
+		<gwtp.version>0.6</gwtp.version>
+		<javax.inject.version>1</javax.inject.version>
+		<gwtlog.version>3.1.5</gwtlog.version>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<configuration>
+					<useProjectReferences>false</useProjectReferences>
+
+					<classpathContainers>
+						<classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer>
+						<classpathContainer>com.google.gwt.eclipse.core.GWT_CONTAINER</classpathContainer>
+					</classpathContainers>
+
+					<additionalBuildcommands>
+						<buildcommand>com.google.gwt.eclipse.core.gwtProjectValidator</buildcommand>
+						<buildcommand>net.sf.eclipsecs.core.CheckstyleBuilder</buildcommand>
+					</additionalBuildcommands>
+
+					<additionalProjectnatures>
+						<projectnature>com.google.gwt.eclipse.core.gwtNature</projectnature>
+					</additionalProjectnatures>
+
+					<additionalConfig>
+						<file>
+							<name>.settings/com.google.gwt.eclipse.core.prefs</name>
+							<content><![CDATA[
+                                    eclipse.preferences.version=1
+                                    entryPointModules=com.gwt.security.sample.GwtpSecuritySample
+                            ]]></content>
+						</file>
+					</additionalConfig>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.gwtplatform</groupId>
+						<artifactId>gwtp-build-tools</artifactId>
+						<version>${project.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+
+		<outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
+	</build>
+
+
+	<dependencies>
+		<!-- Google Web Toolkit dependencies -->
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>${gwt.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-servlet</artifactId>
+			<version>${gwt.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<version>${gwt.version}</version>
+		</dependency>
+
+		<!-- DI dependencies -->
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-servlet</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-assistedinject</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>aopalliance</groupId>
+			<artifactId>aopalliance</artifactId>
+			<version>${aopalliance.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt.inject</groupId>
+			<artifactId>gin</artifactId>
+			<version>${gin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>${javax.inject.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.gwtplatform</groupId>
+			<artifactId>gwtp-mvp-client</artifactId>
+			<version>${gwtp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.gwtplatform</groupId>
+			<artifactId>gwtp-dispatch-client</artifactId>
+			<version>${gwtp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.gwtplatform</groupId>
+			<artifactId>gwtp-dispatch-server-guice</artifactId>
+			<version>${gwtp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gwt-log</groupId>
+			<artifactId>gwt-log</artifactId>
+			<version>${gwtlog.version}</version>
+		</dependency>
+
+	</dependencies>
+</project>
