@@ -1,0 +1,53 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+	<ui:with field="resource" type="com.mg.search.client.resources.AppResources" />
+
+    <ui:style>
+	 	.labelStyle {
+            float: left;
+            margin-right: 5px;
+            font : 14px arial, sans-serif;
+            font-weight: bold;
+        }
+	</ui:style>
+
+	<g:HTMLPanel>
+		<h1>Edit map</h1>
+
+		<div style="margin-bottom: 10px;margin-left :2px;">
+			<g:Label styleName="{style.labelStyle}">Toggle</g:Label>
+			<g:ToggleButton ui:field="toggleBlockButton" styleName="{resource.styles.toggleButton}">
+				<g:upFace image='{resource.cell}'>				
+				</g:upFace>
+				<g:downFace image='{resource.block}' />
+			</g:ToggleButton>
+			<div style="clear:both;"></div>
+		</div>
+		
+		<div style="margin-bottom: 10px;margin-left :2px;">
+			<g:Label styleName="{style.labelStyle}">From</g:Label>
+			<g:ToggleButton ui:field="toggleFromButton" styleName="{resource.styles.toggleButton}">
+				<g:upFace image='{resource.cell}'>				
+				</g:upFace>
+				<g:downFace image='{resource.from}' />
+			</g:ToggleButton>
+			<div style="clear:both;"></div>
+		</div>
+
+		<div style="margin-bottom: 10px;margin-left :2px;">
+			<g:Label styleName="{style.labelStyle}">To</g:Label>
+			<g:ToggleButton ui:field="toggleToButton" styleName="{resource.styles.toggleButton}">
+				<g:upFace image='{resource.cell}'>				
+				</g:upFace>
+				<g:downFace image='{resource.to}' />
+			</g:ToggleButton>
+			<div style="clear:both;"></div>
+		</div>
+
+		<g:HTMLPanel ui:field="gridPanel">
+		</g:HTMLPanel>
+		
+		<g:Button ui:field="findPathButton" debugId="findPathBtn">Find path</g:Button>
+	</g:HTMLPanel>
+</ui:UiBinder>
