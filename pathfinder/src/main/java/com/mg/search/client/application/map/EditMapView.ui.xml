@@ -17,37 +17,39 @@
 
 		<div style="margin-bottom: 10px;margin-left :2px;">
 			<g:Label styleName="{style.labelStyle}">Toggle</g:Label>
-			<g:ToggleButton ui:field="toggleBlockButton" styleName="{resource.styles.toggleButton}">
+
+
+			<g:ToggleButton ui:field="toggleCellButton" styleName="toggleButton">
 				<g:upFace image='{resource.cell}'>				
 				</g:upFace>
-				<g:downFace image='{resource.block}' />
+				<g:downFace image='{resource.cell}' />
 			</g:ToggleButton>
+			
+			<g:ToggleButton ui:field="toggleBlockButton" styleName="toggleButton">
+				<g:upFace image='{resource.block}'>				
+				</g:upFace>
+				<g:downFace image='{resource.block}'/>
+			</g:ToggleButton>
+			
+			<g:ToggleButton ui:field="toggleFromButton" styleName="toggleButton">
+				<g:upFace image='{resource.from}'>				
+				</g:upFace>
+				<g:downFace image='{resource.from}'/>
+			</g:ToggleButton>
+			
+			<g:ToggleButton ui:field="toggleToButton" styleName="toggleButton">
+				<g:upFace image='{resource.to}'>				
+				</g:upFace>
+				<g:downFace image='{resource.to}'/>
+			</g:ToggleButton>
+			
 			<div style="clear:both;"></div>
 		</div>
 		
-		<div style="margin-bottom: 10px;margin-left :2px;">
-			<g:Label styleName="{style.labelStyle}">From</g:Label>
-			<g:ToggleButton ui:field="toggleFromButton" styleName="{resource.styles.toggleButton}">
-				<g:upFace image='{resource.cell}'>				
-				</g:upFace>
-				<g:downFace image='{resource.from}' />
-			</g:ToggleButton>
-			<div style="clear:both;"></div>
-		</div>
-
-		<div style="margin-bottom: 10px;margin-left :2px;">
-			<g:Label styleName="{style.labelStyle}">To</g:Label>
-			<g:ToggleButton ui:field="toggleToButton" styleName="{resource.styles.toggleButton}">
-				<g:upFace image='{resource.cell}'>				
-				</g:upFace>
-				<g:downFace image='{resource.to}' />
-			</g:ToggleButton>
-			<div style="clear:both;"></div>
-		</div>
-
 		<g:HTMLPanel ui:field="gridPanel">
 		</g:HTMLPanel>
 		
 		<g:Button ui:field="findPathButton" debugId="findPathBtn">Find path</g:Button>
+		<g:Button ui:field="resetButton" debugId="resetBtn">Reset</g:Button>
 	</g:HTMLPanel>
 </ui:UiBinder>

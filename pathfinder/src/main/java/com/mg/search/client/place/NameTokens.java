@@ -20,7 +20,6 @@ public class NameTokens {
     public static final String HOME = "!home";
     public static final String CREATE_MAP = "!cm";
     public static final String EDIT_MAP = "!em";
-    public static final String FIND_PATH = "!fp";
     
     
     public static String getHome() {
@@ -35,7 +34,4 @@ public class NameTokens {
         return EDIT_MAP;
     }
     
-    public static String getFindPath(){
-        return FIND_PATH;
-    }
 }

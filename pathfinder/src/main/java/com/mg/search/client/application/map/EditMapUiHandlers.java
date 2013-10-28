@@ -24,4 +24,6 @@ public interface EditMapUiHandlers extends UiHandlers{
     void setToCell(int row, int column);
     
     void onFindPathButtonClick();
+    
+    void onReset();
 }
