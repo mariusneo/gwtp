@@ -26,8 +26,6 @@ public interface AppResources extends ClientBundle{
         
         String blockCell();
         
-        String toggleButton();
-        
         String maze();
     }
     

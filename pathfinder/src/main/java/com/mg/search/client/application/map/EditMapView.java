@@ -13,6 +13,9 @@
 
 package com.mg.search.client.application.map;
 
+import java.util.Iterator;
+import java.util.List;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
@@ -35,10 +38,13 @@ public class EditMapView extends ViewWithUiHandlers<EditMapUiHandlers> implement
 
     @UiField
     HTMLPanel gridPanel;
-    
+
     @UiField
     ToggleButton toggleBlockButton;
 
+    @UiField
+    ToggleButton toggleCellButton;
+    
     @UiField
     ToggleButton toggleFromButton;
 
@@ -47,11 +53,14 @@ public class EditMapView extends ViewWithUiHandlers<EditMapUiHandlers> implement
 
     @UiField
     Button findPathButton;
-    
+
+    @UiField
+    Button resetButton;
+
     Grid grid;
-    
+
     private final AppResources appResources;
-   
+
     @Inject
     public EditMapView(Binder uiBinder, AppResources appResources) {
         initWidget(uiBinder.createAndBindUi(this));
@@ -66,28 +75,27 @@ public class EditMapView extends ViewWithUiHandlers<EditMapUiHandlers> implement
 
         grid = new Grid(lines, columns);
         grid.setStyleName(appResources.styles().maze());
-        
-        for (int row=0;row<lines;row++){
-            for (int col=0;col<columns;col++){
+
+        for (int row = 0; row < lines; row++) {
+            for (int col = 0; col < columns; col++) {
                 final int frow = row;
                 final int fcol = col;
-                
+
                 Image image = new Image(appResources.cell());
                 image.addClickHandler(new ClickHandler() {
-                    
+
                     @Override
                     public void onClick(ClickEvent event) {
-                        if (toggleFromButton.isDown()){
+                        if (toggleFromButton.isDown()) {
                             getUiHandlers().setFromCell(frow, fcol);
-                        }else if (toggleToButton.isDown()){
+                        } else if (toggleToButton.isDown()) {
                             getUiHandlers().setToCell(frow, fcol);
-                        }else{
+                        } else {
                             getUiHandlers().setCellBlocked(frow, fcol, toggleBlockButton.isDown());
                         }
                     }
                 });
-                
-                
+
                 grid.setWidget(row, col, image);
             }
         }
@@ -98,55 +106,138 @@ public class EditMapView extends ViewWithUiHandlers<EditMapUiHandlers> implement
     @UiHandler("findPathButton")
     public void onFindButtonClick(final ClickEvent event) {
         getUiHandlers().onFindPathButtonClick();
-    }    
+    }
     
-    @UiHandler("toggleBlockButton")
-    public void onToggleBlockButtonClick(final ClickEvent event){
-        if (toggleBlockButton.isDown()){
+    @UiHandler("toggleCellButton")
+    public void onToggleCellButtonClick(final ClickEvent event){
+        if (toggleCellButton.isDown()){
+            toggleBlockButton.setDown(false);
             toggleFromButton.setDown(false);
             toggleToButton.setDown(false);
         }
     }
 
+    @UiHandler("toggleBlockButton")
+    public void onToggleBlockButtonClick(final ClickEvent event) {
+        if (toggleBlockButton.isDown()) {
+            toggleCellButton.setDown(false);
+            toggleFromButton.setDown(false);
+            toggleToButton.setDown(false);            
+        }
+    }
+
     @UiHandler("toggleToButton")
-    public void onToggleFromButtonClick(final ClickEvent event){
-        if (toggleToButton.isDown()){
+    public void onToggleFromButtonClick(final ClickEvent event) {
+        if (toggleToButton.isDown()) {
+            toggleCellButton.setDown(false);
             toggleBlockButton.setDown(false);
             toggleFromButton.setDown(false);
         }
     }
 
     @UiHandler("toggleFromButton")
-    public void onToggleToButtonClick(final ClickEvent event){
-        if (toggleFromButton.isDown()){
+    public void onToggleToButtonClick(final ClickEvent event) {
+        if (toggleFromButton.isDown()) {
+            toggleCellButton.setDown(false);
             toggleBlockButton.setDown(false);
             toggleToButton.setDown(false);
         }
     }
-    
+
+    @UiHandler("resetButton")
+    public void onResetButtonClick(final ClickEvent event) {
+        getUiHandlers().onReset();
+    }
+
     @Override
     public void setCellBlock(int row, int column, boolean isBlock) {
-        Image image = (Image)grid.getWidget(row, column);
+        Image image = (Image) grid.getWidget(row, column);
         ImageResource imageResource = isBlock ? appResources.block() : appResources.cell();
         image.setResource(imageResource);
     }
-    
+
     @Override
-    public void setCellFrom(int row, int column){
-        Image image = (Image)grid.getWidget(row, column);
+    public void setCellFrom(int row, int column) {
+        Image image = (Image) grid.getWidget(row, column);
         image.setResource(appResources.from());
     }
-    
+
     @Override
-    public void setCellTo(int row, int column){
-        Image image = (Image)grid.getWidget(row, column);
+    public void setCellTo(int row, int column) {
+        Image image = (Image) grid.getWidget(row, column);
         image.setResource(appResources.to());
-        
+
+    }
+
+    @Override
+    public void setFindPathEnabled(boolean enabled) {
+        findPathButton.setEnabled(enabled);
+    }
+
+    @Override
+    public void setPath(List<Square> path) {
+        // the first and the last element will not be taken into account for now
+        Iterator<Square> squareIterator = path.iterator();
+        if (squareIterator.hasNext()) {
+            Square previousSquare = squareIterator.next();
+
+            while (squareIterator.hasNext()) {
+                Square square = squareIterator.next();
+                if (squareIterator.hasNext()) {
+                    Image image = (Image) grid.getWidget(square.getI(), square.getJ());
+                    if (square.getI() == previousSquare.getI()) {
+                        // move on the line
+                        if (square.getJ() > previousSquare.getJ()) {
+                            image.setResource(appResources.right());
+                        } else {
+                            image.setResource(appResources.left());
+                        }
+                    } else if (square.getJ() == previousSquare.getJ()) {
+                        // move on the column
+                        if (square.getI() > previousSquare.getI()) {
+                            image.setResource(appResources.down());
+                        } else {
+                            image.setResource(appResources.up());
+                        }
+                    } else {
+                        // move on diagonal
+                        if (square.getI() < previousSquare.getI()) {
+                            if (square.getJ() < previousSquare.getJ()) {
+                                image.setResource(appResources.upLeft());
+                            } else {
+                                image.setResource(appResources.upRight());
+                            }
+                        } else {
+                            if (square.getJ() < previousSquare.getJ()) {
+                                image.setResource(appResources.downLeft());
+                            } else {
+                                image.setResource(appResources.downRight());
+                            }
+                        }
+                    }
+                }
+
+                previousSquare = square;
+            }
+        }
     }
     
     @Override
-    public void setFindPathEnabled(boolean enabled){
-        findPathButton.setEnabled(enabled);
+    public void resetPath(List<Square> path){
+     // the first and the last element will not be taken into account for now
+        Iterator<Square> squareIterator = path.iterator();
+        if (squareIterator.hasNext()) {
+            squareIterator.next();
+            
+            while (squareIterator.hasNext()) {
+                Square square = squareIterator.next();
+                
+                if (squareIterator.hasNext()){
+                    Image image = (Image) grid.getWidget(square.getI(), square.getJ());
+                    image.setResource(appResources.cell());
+                }
+            }
+        }
     }
 
 }
