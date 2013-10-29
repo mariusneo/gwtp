@@ -27,6 +27,10 @@ public interface AppResources extends ClientBundle{
         String blockCell();
         
         String maze();
+        
+        String openedCell();
+        
+        String closedCell();
     }
     
     Styles styles();

@@ -240,4 +240,16 @@ public class EditMapView extends ViewWithUiHandlers<EditMapUiHandlers> implement
         }
     }
 
+    @Override
+    public void addCellToOpenList(Square square){
+        Image image = (Image) grid.getWidget(square.getI(), square.getJ());
+        image.setStyleName(appResources.styles().openedCell());
+    }
+    
+    @Override
+    public void addCellToClosedList(Square square){
+        Image image = (Image) grid.getWidget(square.getI(), square.getJ());
+        image.setStyleName(appResources.styles().closedCell());        
+    }
+
 }

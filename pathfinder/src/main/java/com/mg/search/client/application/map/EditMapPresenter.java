@@ -14,6 +14,7 @@
 package com.mg.search.client.application.map;
 
 import java.util.List;
+import java.util.Timer;
 
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -40,10 +41,13 @@ public class EditMapPresenter extends Presenter<EditMapPresenter.MyView, EditMap
 
         void setFindPathEnabled(boolean enabled);
         
-        void  setPath(List<Square> path);
+        void setPath(List<Square> path);
         
         void resetPath(List<Square> path);
         
+        void addCellToOpenList(Square square);
+        
+        void addCellToClosedList(Square square);
     }
 
     @ProxyStandard
@@ -129,9 +133,28 @@ public class EditMapPresenter extends Presenter<EditMapPresenter.MyView, EditMap
             getView().resetPath(path);
         }
         
+        AStarSearchService service = new AStarSearchService();
+        AStarSearchService.FindPathCallback callback = new AStarSearchService.FindPathCallback() {
+            
+            @Override
+            public void onSquareAddedToOpenList(final Square square) {
+                getView().addCellToOpenList(square);
+                Timer timer = new Timer(){
+                    public void run(){
+                           
+                    }
+                };
+            }
+            
+            @Override
+            public void onSquareAddedToClosedList(Square square) {
+                getView().addCellToClosedList(square);
+            }
+        };
+        
         List<Square> path =
-                new AStarSearchService().findPath(matrix, fromCell.getRow(), fromCell.getColumn(),
-                        toCell.getRow(), toCell.getColumn());
+                service.findPath(matrix, fromCell.getRow(), fromCell.getColumn(),
+                        toCell.getRow(), toCell.getColumn(), callback);
         
         
         if (path != null && !path.isEmpty()){

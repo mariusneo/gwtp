@@ -15,3 +15,7 @@ Employed technologies :
 - GWT
 - gwt-platform
 ....
+
+
+JS routine which could be used for selecting (through dragging) cells from the grid: 
+http://jsfiddle.net/cyTUX/56/

@@ -15,29 +15,29 @@
 	<g:HTMLPanel>
 		<h1>Edit map</h1>
 
-		<div style="margin-bottom: 10px;margin-left :2px;">
+		<div style="margin-bottom: 10px;margin-left :2px;height:50px;">
 			<g:Label styleName="{style.labelStyle}">Toggle</g:Label>
 
 
-			<g:ToggleButton ui:field="toggleCellButton" styleName="toggleButton">
-				<g:upFace image='{resource.cell}'>				
+			<g:ToggleButton ui:field="toggleCellButton" styleName="toggleButton" title="Cell">
+				<g:upFace image='{resource.cell}' >				
 				</g:upFace>
 				<g:downFace image='{resource.cell}' />
 			</g:ToggleButton>
 			
-			<g:ToggleButton ui:field="toggleBlockButton" styleName="toggleButton">
+			<g:ToggleButton ui:field="toggleBlockButton" styleName="toggleButton" title="Block">
 				<g:upFace image='{resource.block}'>				
 				</g:upFace>
 				<g:downFace image='{resource.block}'/>
 			</g:ToggleButton>
 			
-			<g:ToggleButton ui:field="toggleFromButton" styleName="toggleButton">
+			<g:ToggleButton ui:field="toggleFromButton" styleName="toggleButton" title="Start">
 				<g:upFace image='{resource.from}'>				
 				</g:upFace>
 				<g:downFace image='{resource.from}'/>
 			</g:ToggleButton>
 			
-			<g:ToggleButton ui:field="toggleToButton" styleName="toggleButton">
+			<g:ToggleButton ui:field="toggleToButton" styleName="toggleButton" title="Destination">
 				<g:upFace image='{resource.to}'>				
 				</g:upFace>
 				<g:downFace image='{resource.to}'/>

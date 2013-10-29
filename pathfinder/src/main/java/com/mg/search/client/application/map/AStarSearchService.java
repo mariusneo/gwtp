@@ -20,12 +20,19 @@ import java.util.List;
  */
 public class AStarSearchService {
 
+    public static interface FindPathCallback{
+        void onSquareAddedToOpenList(Square square);
+        
+        void onSquareAddedToClosedList(Square square);
+        
+    }
+    
     private static int hcost(int i, int j, int desti, int destj) {
         return Math.abs(desti - i) * 10 + Math.abs(destj - j) * 10;
     }
 
     private void addToOpenList(List<Square> openList, List<Square> closedList, boolean[][] m,
-            Square currentSquare, int i, int j, int distance, int desti, int destj) {
+            Square currentSquare, int i, int j, int distance, int desti, int destj, FindPathCallback callback) {
         if (m[i][j] != true) {
             // only non-obstacle squares are taken into account
             Square square = new Square(i, j);
@@ -43,12 +50,15 @@ public class AStarSearchService {
                     square.setHcost(hcost(i, j, desti, destj));
                     square.setParent(currentSquare);
                     openList.add(square);
+                    if (callback != null){
+                        callback.onSquareAddedToOpenList(square);
+                    }
                 }
             }
         }
     }
 
-    public List<Square> findPath(boolean[][] m, int starti, int startj, int desti, int destj) {
+    public List<Square> findPath(boolean[][] m, int starti, int startj, int desti, int destj, FindPathCallback callback) {
         List<Square> openList = new ArrayList<Square>();
         List<Square> closedList = new ArrayList<Square>();
 
@@ -86,7 +96,10 @@ public class AStarSearchService {
             });
             
             currentSquare = openList.get(0);
-
+            if (callback != null){
+                callback.onSquareAddedToClosedList(currentSquare);
+            }
+            
             // switch currentSquare from openList to closeList
             openList.remove(0);
             closedList.add(currentSquare);
@@ -110,27 +123,27 @@ public class AStarSearchService {
                         // . |
                         // | x
                         addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI() - 1,
-                                currentSquare.getJ() - 1, diagonalDistance, desti, destj);
+                                currentSquare.getJ() - 1, diagonalDistance, desti, destj, callback);
                     }
                 }
                 addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI(),
-                        currentSquare.getJ() - 1, straightDistance, desti, destj);
+                        currentSquare.getJ() - 1, straightDistance, desti, destj, callback);
                 if (currentSquare.getI() < m.length - 1) {
                     if (m[currentSquare.getI() + 1][currentSquare.getJ()] != true
                             && m[currentSquare.getI()][currentSquare.getJ() - 1] != true) {
                         addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI() + 1,
-                                currentSquare.getJ() - 1, diagonalDistance, desti, destj);
+                                currentSquare.getJ() - 1, diagonalDistance, desti, destj, callback);
                     }
                 }
             }
 
             if (currentSquare.getI() > 0) {
                 addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI() - 1,
-                        currentSquare.getJ(), straightDistance, desti, destj);
+                        currentSquare.getJ(), straightDistance, desti, destj, callback);
             }
             if (currentSquare.getI() < m.length - 1) {
                 addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI() + 1,
-                        currentSquare.getJ(), straightDistance, desti, destj);
+                        currentSquare.getJ(), straightDistance, desti, destj, callback);
             }
 
             if (currentSquare.getJ() < m[0].length - 1) {
@@ -138,16 +151,16 @@ public class AStarSearchService {
                     if (m[currentSquare.getI() - 1][currentSquare.getJ()] != true
                             && m[currentSquare.getI()][currentSquare.getJ() + 1] != true) {
                         addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI() - 1,
-                                currentSquare.getJ() + 1, diagonalDistance, desti, destj);
+                                currentSquare.getJ() + 1, diagonalDistance, desti, destj, callback);
                     }
                 }
                 addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI(),
-                        currentSquare.getJ() + 1, straightDistance, desti, destj);
+                        currentSquare.getJ() + 1, straightDistance, desti, destj, callback);
                 if (currentSquare.getI() < m.length - 1) {
                     if (m[currentSquare.getI() + 1][currentSquare.getJ()] != true
                             && m[currentSquare.getI()][currentSquare.getJ() + 1] != true) {
                         addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI() + 1,
-                                currentSquare.getJ() + 1, diagonalDistance, desti, destj);
+                                currentSquare.getJ() + 1, diagonalDistance, desti, destj, callback);
                     }
                 }
             }
