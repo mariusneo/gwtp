@@ -1,5 +1,6 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	xmlns:s='urn:import:com.kiouri.sliderbar.client.solution.speedajuster'>
 
 	<ui:with field="resource" type="com.mg.search.client.resources.AppResources" />
 
@@ -10,6 +11,10 @@
             font : 14px arial, sans-serif;
             font-weight: bold;
         }
+        
+        .speedajuster{
+			float: left;
+		}
 	</ui:style>
 
 	<g:HTMLPanel>
@@ -46,6 +51,12 @@
 			<div style="clear:both;"></div>
 		</div>
 		
+		<div style="margin-bottom: 10px;margin-left :2px;height:50px;">
+			<g:Label styleName="{style.labelStyle}">Speed</g:Label>
+			<s:SpeedAjuster ui:field="speedAjuster" styleName="{style.speedajuster}"/>
+			<div style="clear:both;"></div>
+		</div>
+		 
 		<g:HTMLPanel ui:field="gridPanel">
 		</g:HTMLPanel>
 		

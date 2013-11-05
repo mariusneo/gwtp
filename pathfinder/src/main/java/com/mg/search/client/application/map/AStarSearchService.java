@@ -14,6 +14,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.google.gwt.user.client.Timer;
+
 /**
  * @author mga
  * 
@@ -25,7 +27,11 @@ public class AStarSearchService {
         
         void onSquareAddedToClosedList(Square square);
         
+        void onPathFound(List<Square> path);
+        
     }
+    
+    private int speed = 700; 
     
     private static int hcost(int i, int j, int desti, int destj) {
         return Math.abs(desti - i) * 10 + Math.abs(destj - j) * 10;
@@ -58,126 +64,135 @@ public class AStarSearchService {
         }
     }
 
-    public List<Square> findPath(boolean[][] m, int starti, int startj, int desti, int destj, FindPathCallback callback) {
-        List<Square> openList = new ArrayList<Square>();
-        List<Square> closedList = new ArrayList<Square>();
+    public void findPath(final boolean[][] m, final int starti,final int startj,final int desti,final int destj, final FindPathCallback callback) {
+        final List<Square> openList = new ArrayList<Square>();
+        final List<Square> closedList = new ArrayList<Square>();
 
         Square startSquare = new Square(starti, startj);
         startSquare.setHcost(hcost(starti, startj, desti, destj));
         openList.add(startSquare);
 
-        boolean destFound = false;
-        Square currentSquare = null;
 
-        int straightDistance = 10;
-        int diagonalDistance = 14;
+        final int straightDistance = 10;
+        final int diagonalDistance = 14;
 
-        while (true) {
-            if (openList.size() == 0) {
-                // there are no more nodes to investigate, no path to the destination was found
-                break;
-            }
-
-            // Sort the elements of the open list after the lowest cost of the squares
-            Collections.sort(openList, new Comparator<Square>() {
-
-                @Override
-                public int compare(Square arg0, Square arg1) {
-                    int arg0Cost = arg0.getGcost() + arg0.getHcost();
-                    int arg1Cost = arg1.getGcost() + arg1.getHcost();
-
-                    if (arg0Cost > arg1Cost) {
-                        return 1;
-                    } else if (arg0Cost < arg1Cost) {
-                        return -1;
-                    }
-                    return 0;
+        final Timer timer = new Timer(){
+            public void run(){
+                
+                if (openList.size() == 0) {
+                    // there are no more nodes to investigate, no path to the destination was found
+                    return;
                 }
-            });
-            
-            currentSquare = openList.get(0);
-            if (callback != null){
-                callback.onSquareAddedToClosedList(currentSquare);
-            }
-            
-            // switch currentSquare from openList to closeList
-            openList.remove(0);
-            closedList.add(currentSquare);
 
-            if (currentSquare.getI() == desti && currentSquare.getJ() == destj) {
-                // path to the destination was found
-                destFound = true;
-                break;
-            }
+                // Sort the elements of the open list after the lowest cost of the squares
+                Collections.sort(openList, new Comparator<Square>() {
 
-            // retrieve the adjacent nodes and add them to the open list
-            // . . .
-            // . x .
-            // . . .
-            if (currentSquare.getJ() > 0) {
+                    @Override
+                    public int compare(Square arg0, Square arg1) {
+                        int arg0Cost = arg0.getGcost() + arg0.getHcost();
+                        int arg1Cost = arg1.getGcost() + arg1.getHcost();
+
+                        if (arg0Cost > arg1Cost) {
+                            return 1;
+                        } else if (arg0Cost < arg1Cost) {
+                            return -1;
+                        }
+                        return 0;
+                    }
+                });
+                
+                Square currentSquare = openList.get(0);
+                if (callback != null){
+                    callback.onSquareAddedToClosedList(currentSquare);
+                }
+                
+                // switch currentSquare from openList to closeList
+                openList.remove(0);
+                closedList.add(currentSquare);
+
+                if (currentSquare.getI() == desti && currentSquare.getJ() == destj) {
+                    // path to the destination was found
+                    callback.onPathFound(buildPath(currentSquare));
+                    return;
+                }
+
+                // retrieve the adjacent nodes and add them to the open list
+                // . . .
+                // . x .
+                // . . .
+                if (currentSquare.getJ() > 0) {
+                    if (currentSquare.getI() > 0) {
+                        if (m[currentSquare.getI() - 1][currentSquare.getJ()] != true
+                                && m[currentSquare.getI()][currentSquare.getJ() - 1] != true) {
+                            // avoid doing diagonal steps next to the obtactles (when going upwards-back on the
+                            // diagonal)
+                            // . |
+                            // | x
+                            addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI() - 1,
+                                    currentSquare.getJ() - 1, diagonalDistance, desti, destj, callback);
+                        }
+                    }
+                    addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI(),
+                            currentSquare.getJ() - 1, straightDistance, desti, destj, callback);
+                    if (currentSquare.getI() < m.length - 1) {
+                        if (m[currentSquare.getI() + 1][currentSquare.getJ()] != true
+                                && m[currentSquare.getI()][currentSquare.getJ() - 1] != true) {
+                            addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI() + 1,
+                                    currentSquare.getJ() - 1, diagonalDistance, desti, destj, callback);
+                        }
+                    }
+                }
+
                 if (currentSquare.getI() > 0) {
-                    if (m[currentSquare.getI() - 1][currentSquare.getJ()] != true
-                            && m[currentSquare.getI()][currentSquare.getJ() - 1] != true) {
-                        // avoid doing diagonal steps next to the obtactles (when going upwards-back on the
-                        // diagonal)
-                        // . |
-                        // | x
-                        addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI() - 1,
-                                currentSquare.getJ() - 1, diagonalDistance, desti, destj, callback);
-                    }
+                    addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI() - 1,
+                            currentSquare.getJ(), straightDistance, desti, destj, callback);
                 }
-                addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI(),
-                        currentSquare.getJ() - 1, straightDistance, desti, destj, callback);
                 if (currentSquare.getI() < m.length - 1) {
-                    if (m[currentSquare.getI() + 1][currentSquare.getJ()] != true
-                            && m[currentSquare.getI()][currentSquare.getJ() - 1] != true) {
-                        addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI() + 1,
-                                currentSquare.getJ() - 1, diagonalDistance, desti, destj, callback);
+                    addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI() + 1,
+                            currentSquare.getJ(), straightDistance, desti, destj, callback);
+                }
+
+                if (currentSquare.getJ() < m[0].length - 1) {
+                    if (currentSquare.getI() > 0) {
+                        if (m[currentSquare.getI() - 1][currentSquare.getJ()] != true
+                                && m[currentSquare.getI()][currentSquare.getJ() + 1] != true) {
+                            addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI() - 1,
+                                    currentSquare.getJ() + 1, diagonalDistance, desti, destj, callback);
+                        }
+                    }
+                    addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI(),
+                            currentSquare.getJ() + 1, straightDistance, desti, destj, callback);
+                    if (currentSquare.getI() < m.length - 1) {
+                        if (m[currentSquare.getI() + 1][currentSquare.getJ()] != true
+                                && m[currentSquare.getI()][currentSquare.getJ() + 1] != true) {
+                            addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI() + 1,
+                                    currentSquare.getJ() + 1, diagonalDistance, desti, destj, callback);
+                        }
                     }
                 }
+                
+                this.schedule(speed);
             }
+        };
+        
+        timer.schedule(speed);
+        
 
-            if (currentSquare.getI() > 0) {
-                addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI() - 1,
-                        currentSquare.getJ(), straightDistance, desti, destj, callback);
-            }
-            if (currentSquare.getI() < m.length - 1) {
-                addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI() + 1,
-                        currentSquare.getJ(), straightDistance, desti, destj, callback);
-            }
-
-            if (currentSquare.getJ() < m[0].length - 1) {
-                if (currentSquare.getI() > 0) {
-                    if (m[currentSquare.getI() - 1][currentSquare.getJ()] != true
-                            && m[currentSquare.getI()][currentSquare.getJ() + 1] != true) {
-                        addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI() - 1,
-                                currentSquare.getJ() + 1, diagonalDistance, desti, destj, callback);
-                    }
-                }
-                addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI(),
-                        currentSquare.getJ() + 1, straightDistance, desti, destj, callback);
-                if (currentSquare.getI() < m.length - 1) {
-                    if (m[currentSquare.getI() + 1][currentSquare.getJ()] != true
-                            && m[currentSquare.getI()][currentSquare.getJ() + 1] != true) {
-                        addToOpenList(openList, closedList, m, currentSquare, currentSquare.getI() + 1,
-                                currentSquare.getJ() + 1, diagonalDistance, desti, destj, callback);
-                    }
-                }
-            }
-
-        }
-
-        List<Square> path = new ArrayList<Square>();
-        if (destFound) {
-            while (true) {
-                path.add(currentSquare);
-                if (currentSquare.equals(startSquare)) {
-                    break;
-                }
-                currentSquare = currentSquare.getParent();
-            }
-            Collections.reverse(path);
-        }
+    }
+    
+    
+    public void setSpeed(int speed){
+        this.speed = Math.abs(700 - speed * 100);
+    }
+    
+    private List<Square> buildPath(Square destinationSquare) {
+        final List<Square> path = new ArrayList<Square>();
+        Square currentSquare = destinationSquare;
+        do {
+            path.add(currentSquare);
+            currentSquare = currentSquare.getParent();
+        } while (currentSquare != null);
+        Collections.reverse(path);
 
         return path;
     }

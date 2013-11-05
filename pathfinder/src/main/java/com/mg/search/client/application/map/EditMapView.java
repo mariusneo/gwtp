@@ -16,6 +16,7 @@ package com.mg.search.client.application.map;
 import java.util.Iterator;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
@@ -30,6 +31,9 @@ import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
+import com.kiouri.sliderbar.client.event.BarValueChangedEvent;
+import com.kiouri.sliderbar.client.event.BarValueChangedHandler;
+import com.kiouri.sliderbar.client.solution.speedajuster.SpeedAjuster;
 import com.mg.search.client.resources.AppResources;
 
 public class EditMapView extends ViewWithUiHandlers<EditMapUiHandlers> implements EditMapPresenter.MyView {
@@ -57,6 +61,9 @@ public class EditMapView extends ViewWithUiHandlers<EditMapUiHandlers> implement
     @UiField
     Button resetButton;
 
+    @UiField
+    SpeedAjuster speedAjuster;
+    
     Grid grid;
 
     private final AppResources appResources;
@@ -65,6 +72,12 @@ public class EditMapView extends ViewWithUiHandlers<EditMapUiHandlers> implement
     public EditMapView(Binder uiBinder, AppResources appResources) {
         initWidget(uiBinder.createAndBindUi(this));
         this.appResources = appResources;
+        
+        speedAjuster.addBarValueChangedHandler(new BarValueChangedHandler() {
+            public void onBarValueChanged(BarValueChangedEvent event) {
+                getUiHandlers().onSpeedChanged(event.getValue());
+            }
+        });
     }
 
     @Override

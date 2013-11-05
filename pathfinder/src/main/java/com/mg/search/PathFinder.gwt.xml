@@ -13,6 +13,8 @@
     <inherits name='com.gwtplatform.dispatch.Dispatch' />
     
     <inherits name='com.gwtplatform.mvp.MvpWithEntryPoint' />
+    
+    <inherits name='com.kiouri.sliderbar.SliderBarMVP'/>
 
 	<set-configuration-property name="CssResource.style" value="pretty"/>
 

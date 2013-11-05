@@ -14,8 +14,8 @@
 package com.mg.search.client.application.map;
 
 import java.util.List;
-import java.util.Timer;
 
+import com.google.gwt.user.client.Timer;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.HasUiHandlers;
@@ -70,6 +70,8 @@ public class EditMapPresenter extends Presenter<EditMapPresenter.MyView, EditMap
     private Cell toCell = null;
     
     private List<Square> path = null;
+    
+    private AStarSearchService service;
 
     @Inject
     public EditMapPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
@@ -86,6 +88,8 @@ public class EditMapPresenter extends Presenter<EditMapPresenter.MyView, EditMap
         fromCell = null;
         toCell = null;
 
+        service = new AStarSearchService();
+        
         reset();
     }
     
@@ -133,35 +137,33 @@ public class EditMapPresenter extends Presenter<EditMapPresenter.MyView, EditMap
             getView().resetPath(path);
         }
         
-        AStarSearchService service = new AStarSearchService();
+        
         AStarSearchService.FindPathCallback callback = new AStarSearchService.FindPathCallback() {
             
             @Override
             public void onSquareAddedToOpenList(final Square square) {
                 getView().addCellToOpenList(square);
-                Timer timer = new Timer(){
-                    public void run(){
-                           
-                    }
-                };
             }
             
             @Override
-            public void onSquareAddedToClosedList(Square square) {
+            public void onSquareAddedToClosedList(final Square square) {
                 getView().addCellToClosedList(square);
             }
+
+            @Override
+            public void onPathFound(List<Square> path) {
+                if (path != null && !path.isEmpty()){
+                    EditMapPresenter.this.path = path;
+                    getView().setPath(path);
+                }
+
+            }
+            
+            
         };
         
-        List<Square> path =
-                service.findPath(matrix, fromCell.getRow(), fromCell.getColumn(),
+        service.findPath(matrix, fromCell.getRow(), fromCell.getColumn(),
                         toCell.getRow(), toCell.getColumn(), callback);
-        
-        
-        if (path != null && !path.isEmpty()){
-            this.path = path;
-            getView().setPath(path);
-        }
-        
         
     }
 
@@ -203,6 +205,12 @@ public class EditMapPresenter extends Presenter<EditMapPresenter.MyView, EditMap
         toggleFindPathEnabledState();
     }
 
+    
+    @Override
+    public void onSpeedChanged(int newSpeedFactor){
+        service.setSpeed(newSpeedFactor);
+    }
+    
     private class Cell {
         int row;
         int column;

@@ -26,4 +26,6 @@ public interface EditMapUiHandlers extends UiHandlers{
     void onFindPathButtonClick();
     
     void onReset();
+    
+    void onSpeedChanged(int newSpeedFactor);
 }

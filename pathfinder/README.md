@@ -17,5 +17,8 @@ Employed technologies :
 ....
 
 
+Slider bar gwt project:
+https://github.com/jbarop/gwt-slider-bar
+
 JS routine which could be used for selecting (through dragging) cells from the grid: 
 http://jsfiddle.net/cyTUX/56/
