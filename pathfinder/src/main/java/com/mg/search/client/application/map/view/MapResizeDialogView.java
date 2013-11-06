@@ -8,24 +8,29 @@
 /**
  * 
  */
-package com.mg.search.client.application.map;
+package com.mg.search.client.application.map.view;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.PopupViewWithUiHandlers;
+import com.mg.search.client.application.map.MapResizeDialogUiHandlers;
+import com.mg.search.client.application.map.presenter.MapResizeDialogPresenterWidget;
 
 /**
  * @author mga
  *
  */
 public class MapResizeDialogView extends PopupViewWithUiHandlers<MapResizeDialogUiHandlers> implements MapResizeDialogPresenterWidget.MyView {
+
+    @UiTemplate("uibinder/MapResizeDialogView.ui.xml")
     interface Binder extends UiBinder<PopupPanel, MapResizeDialogView> {
     }
 

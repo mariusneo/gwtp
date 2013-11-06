@@ -8,7 +8,7 @@
 /**
  * 
  */
-package com.mg.search.client.application.map;
+package com.mg.search.client.application.map.view;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class PathGridCell extends FocusPanel{
-    @UiTemplate("PathGridCell.ui.xml")
+    @UiTemplate("uibinder/PathGridCell.ui.xml")
     interface PathGridCellBinder extends UiBinder<Widget, PathGridCell> {
     }
     
@@ -75,6 +75,7 @@ public class PathGridCell extends FocusPanel{
         imgContainer.add(image);
     }
     
+    @Override
     public void clear(){
         fLabel.setText("");
         gLabel.setText("");

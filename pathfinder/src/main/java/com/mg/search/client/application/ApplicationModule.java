@@ -18,8 +18,8 @@ package com.mg.search.client.application;
 
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 import com.mg.search.client.application.map.MapModule;
-import com.mg.search.client.application.map.MapResizeDialogPresenterWidget;
-import com.mg.search.client.application.map.MapResizeDialogView;
+import com.mg.search.client.application.map.presenter.MapResizeDialogPresenterWidget;
+import com.mg.search.client.application.map.view.MapResizeDialogView;
 
 public class ApplicationModule extends AbstractPresenterModule {
     @Override

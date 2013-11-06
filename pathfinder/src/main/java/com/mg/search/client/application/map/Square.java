@@ -11,7 +11,12 @@ package com.mg.search.client.application.map;
 
 import java.io.Serializable;
 
+import com.mg.search.client.application.map.service.AStarSearchService;
+
 /**
+ * Class used by {@link AStarSearchService} for communicating via its callback with the class that listens for
+ * events from it (e.g. : cell added to the open list, cell added to the closed list, path found, etc.)
+ * 
  * @author mga
  * 
  */

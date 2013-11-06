@@ -7,17 +7,25 @@
 /**
  * 
  */
-package com.mg.search.client.application.map;
+package com.mg.search.client.application.map.presenter;
 
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.PopupView;
 import com.gwtplatform.mvp.client.PresenterWidget;
+import com.mg.search.client.application.map.MapResizeDialogUiHandlers;
 
 /**
+ * <p>
+ * This presenter incorporates the logic needed for displaying a popup in case that the user wants to resize
+ * the map(matrix) on which the a* search algorithm has to be applied.
+ * </p>
+ * 
+ * <p>
  * The {@link PresenterWidget} of a dialog box that is meant to be displayed no matter which presenter is
- * visible. Compare to {@link LocalDialogPresenterWidget}.
+ * visible.
+ * </p>
  */
 public class MapResizeDialogPresenterWidget extends PresenterWidget<MapResizeDialogPresenterWidget.MyView>
         implements MapResizeDialogUiHandlers {

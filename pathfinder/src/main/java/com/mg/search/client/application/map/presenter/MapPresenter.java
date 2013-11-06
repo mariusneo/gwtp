@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-package com.mg.search.client.application.map;
+package com.mg.search.client.application.map.presenter;
 
 import java.util.List;
 
@@ -27,6 +27,10 @@ import com.gwtplatform.mvp.client.proxy.PlaceRequest;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.gwtplatform.mvp.client.proxy.RevealRootPopupContentEvent;
 import com.mg.search.client.application.ApplicationPresenter;
+import com.mg.search.client.application.map.MapUiHandlers;
+import com.mg.search.client.application.map.Square;
+import com.mg.search.client.application.map.service.AStarSearchService;
+import com.mg.search.client.application.map.service.AStarSearchService.FindPathCallback;
 import com.mg.search.client.place.NameTokens;
 
 public class MapPresenter extends Presenter<MapPresenter.MyView, MapPresenter.MyProxy> implements

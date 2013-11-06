@@ -14,6 +14,8 @@
 package com.mg.search.client.application.map;
 
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
+import com.mg.search.client.application.map.presenter.MapPresenter;
+import com.mg.search.client.application.map.view.MapView;
 
 public class MapModule extends AbstractPresenterModule {
     @Override

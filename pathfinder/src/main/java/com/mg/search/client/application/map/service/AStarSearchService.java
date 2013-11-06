@@ -7,7 +7,7 @@
 /**
  * 
  */
-package com.mg.search.client.application.map;
+package com.mg.search.client.application.map.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,34 +15,49 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.google.gwt.user.client.Timer;
+import com.mg.search.client.application.map.Square;
 
 /**
+ * <p>
+ * Service used for finding the path between two points (start, destination) within a matrix in which can
+ * exist obstacles.
+ * <p>
+ * 
+ * <p>
+ * Since the service is supposed to be used within a GWT application in such a manner so that the user of the
+ * application can easily identify with how the algorithm advances, a GWT {@link Timer} will be used for
+ * pausing its execution after each iteration. In order to allow the user to adjust the speed at which the
+ * algorithm iterations are executed, the service exposes a method for setting this speed.
+ * </p>
+ * 
  * @author mga
  * 
  */
 public class AStarSearchService {
 
-    public static interface FindPathCallback{
+    public static interface FindPathCallback {
         void onSquareAddedToOpenList(Square square);
-        
+
         void onOpenListSquareUpdated(Square square);
-        
+
         void onSquareAddedToClosedList(Square square);
-        
+
         void onPathFound(List<Square> path);
-        
+
         void onPathNotFound();
-        
+
     }
-    
-    private int speed = 700; 
-    
+
+    private int speed = 700;
+
     private static int hcost(int i, int j, int desti, int destj) {
         return Math.abs(desti - i) * 10 + Math.abs(destj - j) * 10;
     }
 
-    private void addToOpenList(List<Square> openList, List<Square> closedList, boolean[][] m,
-            Square currentSquare, int i, int j, int distance, int desti, int destj, FindPathCallback callback) {
+    private void
+            addToOpenList(List<Square> openList, List<Square> closedList, boolean[][] m,
+                    Square currentSquare, int i, int j, int distance, int desti, int destj,
+                    FindPathCallback callback) {
         if (m[i][j] != true) {
             // only non-obstacle squares are taken into account
             Square square = new Square(i, j);
@@ -61,7 +76,7 @@ public class AStarSearchService {
                     square.setHcost(hcost(i, j, desti, destj));
                     square.setParent(currentSquare);
                     openList.add(square);
-                    if (callback != null){
+                    if (callback != null) {
                         callback.onSquareAddedToOpenList(square);
                     }
                 }
@@ -69,7 +84,8 @@ public class AStarSearchService {
         }
     }
 
-    public Timer findPath(final boolean[][] m, final int starti,final int startj,final int desti,final int destj, final FindPathCallback callback) {
+    public Timer findPath(final boolean[][] m, final int starti, final int startj, final int desti,
+            final int destj, final FindPathCallback callback) {
         final List<Square> openList = new ArrayList<Square>();
         final List<Square> closedList = new ArrayList<Square>();
 
@@ -77,13 +93,13 @@ public class AStarSearchService {
         startSquare.setHcost(hcost(starti, startj, desti, destj));
         openList.add(startSquare);
 
-
         final int straightDistance = 10;
         final int diagonalDistance = 14;
 
-        Timer timer = new Timer(){
-            public void run(){
-                
+        Timer timer = new Timer() {
+            @Override
+            public void run() {
+
                 if (openList.size() == 0) {
                     // there are no more nodes to investigate, no path to the destination was found
                     callback.onPathNotFound();
@@ -106,12 +122,12 @@ public class AStarSearchService {
                         return 0;
                     }
                 });
-                
+
                 Square currentSquare = openList.get(0);
-                if (callback != null){
+                if (callback != null) {
                     callback.onSquareAddedToClosedList(currentSquare);
                 }
-                
+
                 // switch currentSquare from openList to closeList
                 openList.remove(0);
                 closedList.add(currentSquare);
@@ -130,7 +146,8 @@ public class AStarSearchService {
                     if (currentSquare.getI() > 0) {
                         if (m[currentSquare.getI() - 1][currentSquare.getJ()] != true
                                 && m[currentSquare.getI()][currentSquare.getJ() - 1] != true) {
-                            // avoid doing diagonal steps next to the obtactles (when going upwards-back on the
+                            // avoid doing diagonal steps next to the obtactles (when going upwards-back on
+// the
                             // diagonal)
                             // . |
                             // | x
@@ -176,25 +193,21 @@ public class AStarSearchService {
                         }
                     }
                 }
-                
+
                 this.schedule(speed);
             }
         };
-        
+
         timer.schedule(speed);
-        
-        
+
         return timer;
 
     }
-    
-    
-    public void setSpeed(int speed){
+
+    public void setSpeed(int speed) {
         this.speed = Math.abs(700 - speed * 100);
     }
-   
-   
-    
+
     private List<Square> buildPath(Square destinationSquare) {
         final List<Square> path = new ArrayList<Square>();
         Square currentSquare = destinationSquare;

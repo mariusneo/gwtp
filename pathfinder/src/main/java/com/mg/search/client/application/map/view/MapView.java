@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-package com.mg.search.client.application.map;
+package com.mg.search.client.application.map.view;
 
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +22,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -34,9 +35,13 @@ import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 import com.kiouri.sliderbar.client.event.BarValueChangedEvent;
 import com.kiouri.sliderbar.client.event.BarValueChangedHandler;
 import com.kiouri.sliderbar.client.solution.speedajuster.SpeedAjuster;
+import com.mg.search.client.application.map.MapUiHandlers;
+import com.mg.search.client.application.map.Square;
+import com.mg.search.client.application.map.presenter.MapPresenter;
 import com.mg.search.client.resources.AppResources;
 
 public class MapView extends ViewWithUiHandlers<MapUiHandlers> implements MapPresenter.MyView {
+    @UiTemplate("uibinder/MapView.ui.xml")
     public interface Binder extends UiBinder<Widget, MapView> {
     }
 
@@ -77,6 +82,7 @@ public class MapView extends ViewWithUiHandlers<MapUiHandlers> implements MapPre
         this.appResources = appResources;
 
         speedAjuster.addBarValueChangedHandler(new BarValueChangedHandler() {
+            @Override
             public void onBarValueChanged(BarValueChangedEvent event) {
                 getUiHandlers().onSpeedChanged(event.getValue());
             }
