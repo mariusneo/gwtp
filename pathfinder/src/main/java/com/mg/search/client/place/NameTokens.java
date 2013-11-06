@@ -17,21 +17,11 @@
 package com.mg.search.client.place;
 
 public class NameTokens {
-    public static final String HOME = "!home";
-    public static final String CREATE_MAP = "!cm";
-    public static final String EDIT_MAP = "!em";
+    public static final String HOME = "map";
     
     
     public static String getHome() {
         return HOME;
-    }
-    
-    public static String getCreateMap(){
-        return CREATE_MAP;
-    }
-    
-    public static String getEditMap(){
-        return EDIT_MAP;
     }
     
 }

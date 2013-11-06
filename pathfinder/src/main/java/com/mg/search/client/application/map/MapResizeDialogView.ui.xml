@@ -1,0 +1,21 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui">
+    <g:DialogBox modal="true">
+        <g:caption>
+            <b>Map resize</b>
+        </g:caption>
+        <g:HTMLPanel>
+            <p>Introduce the new size for the map matrix.</p>
+            <p>
+            	<g:Label>Rows</g:Label>
+            	<g:TextBox ui:field="rowsText"></g:TextBox>
+            </p>
+            <p>
+            	<g:Label>Columns</g:Label>
+            	<g:TextBox ui:field="columnsText"></g:TextBox>
+            </p>
+            <g:Button ui:field="okButton">Ok</g:Button>
+            <g:Button ui:field="cancelButton">Cancel</g:Button>
+        </g:HTMLPanel>
+    </g:DialogBox>
+</ui:UiBinder>

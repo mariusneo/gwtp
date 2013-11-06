@@ -16,7 +16,7 @@ import com.gwtplatform.mvp.client.UiHandlers;
  * @author mga
  *
  */
-public interface EditMapUiHandlers extends UiHandlers{
+public interface MapUiHandlers extends UiHandlers{
     void setCellBlocked(int row, int column, boolean isBlock);
     
     void setFromCell(int row, int column);
@@ -25,7 +25,9 @@ public interface EditMapUiHandlers extends UiHandlers{
     
     void onFindPathButtonClick();
     
-    void onReset();
+    void onResetMap();
     
     void onSpeedChanged(int newSpeedFactor);
+    
+    void showMapResizeDialog();
 }

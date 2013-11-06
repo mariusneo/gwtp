@@ -12,20 +12,51 @@
 }
 
 @sprite .emptyCell{
-	gwt-image: "cell";
+	gwt-image: "cellBig";
 	border : none;
 }
 
 @sprite .blockCell{
-	gwt-image: "block";
+	gwt-image: "blockBig";
 	border : none;
 }
 
 
-.openedCell{
-	background-color : rgba(100, 227, 134, 0.3) !important;
+.gridCell{
+	width:50px;
+	height:50px; 
+	border : 2px gray dashed;
+	margin : 1px;
 }
 
+.gridBlockCell{
+	width:50px;
+	height:50px; 
+	border : 2px #1C1C1C solid;
+	margin:1px; 
+	background-color: #FE2E2E;
+}
+
+.openedCell{
+	background-color : rgba(34, 104, 174, 0.2) !important;
+}
+
+.updatedOpenedCell{
+	animation:myfirst 2s;
+	-webkit-animation:myfirst 2s; /* Safari and Chrome */
+}
+
+@keyframes myfirst
+{
+	from {background:white !important;}
+	to {background:rgba(34, 104, 174, 0.2) !important;}
+}
+
+
 .closedCell{
-	background-color : rgba(100, 227, 134, 0.8) !important;
+	background-color : rgba(34, 104, 174, 0.7) !important;
+}
+
+.pathCell{
+	background-color : rgba(100, 227, 134, 0.7) !important; 	
 }

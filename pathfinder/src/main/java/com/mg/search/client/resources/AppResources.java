@@ -26,63 +26,78 @@ public interface AppResources extends ClientBundle{
         
         String blockCell();
         
+        String gridCell();
+        
+        String gridBlockCell();
+        
         String maze();
         
         String openedCell();
         
+        String updatedOpenedCell();
+        
         String closedCell();
+        
+        String pathCell();
     }
     
     Styles styles();
     
-    @Source("selection.png")
+    @Source("icons48x48/selection.png")
     @ImageResource.ImageOptions(repeatStyle = ImageResource.RepeatStyle.None)
-    ImageResource cell();
+    ImageResource cellBig();
 
-    @Source("media_stop_red.png")
+    @Source("icons48x48/media_stop_red.png")
     @ImageResource.ImageOptions(repeatStyle = ImageResource.RepeatStyle.None)
-    ImageResource block();
+    ImageResource blockBig();
 
-    @Source("nav_plain_green.png")
+    @Source("icons48x48/nav_plain_green.png")
     @ImageResource.ImageOptions(repeatStyle = ImageResource.RepeatStyle.None)
-    ImageResource from();
+    ImageResource fromBig();
 
-    @Source("nav_plain_red.png")
+    @Source("icons48x48/nav_plain_red.png")
     @ImageResource.ImageOptions(repeatStyle = ImageResource.RepeatStyle.None)
-    ImageResource to();
+    ImageResource toBig();
+    
+    @Source("icons16x16/nav_plain_green.png")
+    @ImageResource.ImageOptions(repeatStyle = ImageResource.RepeatStyle.None)
+    ImageResource fromSmall();
+
+    @Source("icons16x16/nav_plain_red.png")
+    @ImageResource.ImageOptions(repeatStyle = ImageResource.RepeatStyle.None)
+    ImageResource toSmall();
+
     
     
-    @Source("nav_down_green.png")
+    @Source("icons16x16/nav_down_green.png")
     @ImageResource.ImageOptions(repeatStyle = ImageResource.RepeatStyle.None)
-    ImageResource down();
+    ImageResource downSmall();
     
-    @Source("nav_down_left_green.png")
+    @Source("icons16x16/nav_down_left_green.png")
     @ImageResource.ImageOptions(repeatStyle = ImageResource.RepeatStyle.None)
-    ImageResource downLeft();
+    ImageResource downLeftSmall();
 
-    @Source("nav_down_right_green.png")
+    @Source("icons16x16/nav_down_right_green.png")
     @ImageResource.ImageOptions(repeatStyle = ImageResource.RepeatStyle.None)
-    ImageResource downRight();
+    ImageResource downRightSmall();
     
-    @Source("nav_left_green.png")
+    @Source("icons16x16/nav_left_green.png")
     @ImageResource.ImageOptions(repeatStyle = ImageResource.RepeatStyle.None)
-    ImageResource left();
+    ImageResource leftSmall();
     
-    @Source("nav_right_green.png")
+    @Source("icons16x16/nav_right_green.png")
     @ImageResource.ImageOptions(repeatStyle = ImageResource.RepeatStyle.None)
-    ImageResource right();
+    ImageResource rightSmall();
     
-    @Source("nav_up_green.png")
+    @Source("icons16x16/nav_up_green.png")
     @ImageResource.ImageOptions(repeatStyle = ImageResource.RepeatStyle.None)
-    ImageResource up();
+    ImageResource upSmall();
     
-    @Source("nav_up_left_green.png")
+    @Source("icons16x16/nav_up_left_green.png")
     @ImageResource.ImageOptions(repeatStyle = ImageResource.RepeatStyle.None)
-    ImageResource upLeft();
+    ImageResource upLeftSmall();
 
-    @Source("nav_up_right_green.png")
+    @Source("icons16x16/nav_up_right_green.png")
     @ImageResource.ImageOptions(repeatStyle = ImageResource.RepeatStyle.None)
-    ImageResource upRight();
-
-
+    ImageResource upRightSmall();
 }

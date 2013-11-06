@@ -1,0 +1,56 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" >
+	
+	<ui:style>
+	    .cell { 
+			width:50px;height:50px; 
+			border : 2px #2268ae dashed;
+			font-family:Arial, sans-serif; 
+			font-size:12px;
+			margin:1px;	    
+		}
+		
+		.fLabel{
+			padding-left:2px;
+			height:15px;	
+		}
+		
+		.imgContainer{
+			height:16px;
+		}
+		
+		.imgContainer img{
+			display:block;
+			margin-left:auto; 
+			margin-right:auto;
+			height:16px;
+			width: 16px;
+			
+		}
+		
+		.labelContainer{
+			height:15px;
+		}
+		
+		.gLabel{
+			float:right;
+			padding-right:2px;
+		}
+		
+		.hLabel{
+			padding-left:2px;
+		}
+  	</ui:style>
+  	
+  	
+	<g:HTMLPanel styleName="{style.cell}">
+			<g:Label ui:field="fLabel" styleName="{style.fLabel}"></g:Label>
+			<g:HTMLPanel ui:field="imgContainer" styleName="{style.imgContainer}"></g:HTMLPanel>
+			<g:HTMLPanel styleName="{style.labelContainer}">
+				<g:Label ui:field="gLabel" styleName="{style.gLabel}"></g:Label>
+				<g:Label ui:field="hLabel" styleName="{style.hLabel}"></g:Label>
+				<div style="clear:both"></div>
+			</g:HTMLPanel>
+	</g:HTMLPanel>
+</ui:UiBinder>

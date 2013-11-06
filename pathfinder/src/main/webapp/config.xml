@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets"
+        id="com.gwtplatform.carstore"
+        version="1.0.0">
+    <name>Path Finder</name>
+
+    <description>
+        A* search path finder application.
+    </description>
+
+    <author email="mariusneo@gmail.com">
+        Marius Grama
+    </author>
+
+    <icon src="icons/find_next.png" width="48" height="48" />
+</widget>

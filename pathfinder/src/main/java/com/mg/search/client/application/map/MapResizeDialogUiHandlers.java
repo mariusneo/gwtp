@@ -8,7 +8,7 @@
 /**
  * 
  */
-package com.mg.search.client.application.home;
+package com.mg.search.client.application.map;
 
 import com.gwtplatform.mvp.client.UiHandlers;
 
@@ -16,6 +16,7 @@ import com.gwtplatform.mvp.client.UiHandlers;
  * @author mga
  *
  */
-public interface HomePageUiHandlers extends UiHandlers{
-    void onCreateMapButtonClick();
+public interface MapResizeDialogUiHandlers extends UiHandlers{
+    void onOkClicked();
+    
 }

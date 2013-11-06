@@ -25,9 +25,13 @@ public class AStarSearchService {
     public static interface FindPathCallback{
         void onSquareAddedToOpenList(Square square);
         
+        void onOpenListSquareUpdated(Square square);
+        
         void onSquareAddedToClosedList(Square square);
         
         void onPathFound(List<Square> path);
+        
+        void onPathNotFound();
         
     }
     
@@ -50,6 +54,7 @@ public class AStarSearchService {
                         // a shorter path was found
                         square.setParent(currentSquare);
                         square.setGcost(currentSquare.getGcost() + distance);
+                        callback.onOpenListSquareUpdated(square);
                     }
                 } else {
                     square.setGcost(currentSquare.getGcost() + distance);
@@ -64,7 +69,7 @@ public class AStarSearchService {
         }
     }
 
-    public void findPath(final boolean[][] m, final int starti,final int startj,final int desti,final int destj, final FindPathCallback callback) {
+    public Timer findPath(final boolean[][] m, final int starti,final int startj,final int desti,final int destj, final FindPathCallback callback) {
         final List<Square> openList = new ArrayList<Square>();
         final List<Square> closedList = new ArrayList<Square>();
 
@@ -76,11 +81,12 @@ public class AStarSearchService {
         final int straightDistance = 10;
         final int diagonalDistance = 14;
 
-        final Timer timer = new Timer(){
+        Timer timer = new Timer(){
             public void run(){
                 
                 if (openList.size() == 0) {
                     // there are no more nodes to investigate, no path to the destination was found
+                    callback.onPathNotFound();
                     return;
                 }
 
@@ -177,6 +183,8 @@ public class AStarSearchService {
         
         timer.schedule(speed);
         
+        
+        return timer;
 
     }
     
@@ -184,6 +192,8 @@ public class AStarSearchService {
     public void setSpeed(int speed){
         this.speed = Math.abs(700 - speed * 100);
     }
+   
+   
     
     private List<Square> buildPath(Square destinationSquare) {
         final List<Square> path = new ArrayList<Square>();

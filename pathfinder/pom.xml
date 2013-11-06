@@ -35,6 +35,18 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
+        
+		<gae.home>
+			${settings.localRepository}/com/google/appengine/appengine-java-sdk/${gae.version}/appengine-java-sdk-${gae.version}
+		</gae.home>
+
+		<!-- gae maven plugin settings -->
+		<gae.wait>false</gae.wait>
+		<gae.stop.port>8081</gae.stop.port>
+		<gae.port>8888</gae.port>
+		<gae.address>127.0.0.1</gae.address>
+		<gae.version>1.7.7.1</gae.version>
+        
     </properties>
 
     <build>
@@ -85,7 +97,11 @@
                     <copyWebapp>true</copyWebapp>
                     <hostedWebapp>${webappDirectory}</hostedWebapp>
 
-                    <runTarget>Project.html</runTarget>
+					<server>com.google.appengine.tools.development.gwt.AppEngineLauncher</server>
+					<appEngineVersion>${gae.version}</appEngineVersion>
+					<appEngineHome>${gae.home}</appEngineHome>
+
+                    <runTarget>pathfinder.html</runTarget>
                     <modules>
                         <module>com.mg.search.Project</module>
                     </modules>
@@ -99,6 +115,16 @@
                     </execution>
                 </executions>
             </plugin>
+            
+			<plugin>
+				<groupId>net.kindleit</groupId>
+				<artifactId>maven-gae-plugin</artifactId>
+				<configuration>
+					<sdkDir>${gae.home}</sdkDir>
+					<appDir>${webappDirectory}</appDir>
+				</configuration>
+			</plugin>
+            
         </plugins>
     </build>
 
@@ -173,6 +199,26 @@
 		  <version>1.1-SNAPSHOT</version>
 	  	</dependency>
 
+
+		<!-- AppEngine -->
+		<dependency>
+			<groupId>com.google.appengine</groupId>
+			<artifactId>appengine-api-1.0-sdk</artifactId>
+			<version>${gae.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.appengine</groupId>
+			<artifactId>appengine-api-stubs</artifactId>
+			<version>${gae.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.appengine</groupId>
+			<artifactId>appengine-testing</artifactId>
+			<version>${gae.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
         <!-- Test -->
         <dependency>
             <groupId>junit</groupId>

@@ -18,9 +18,7 @@ import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 public class MapModule extends AbstractPresenterModule {
     @Override
     protected void configure() {
-        bindPresenter(CreateMapPresenter.class, CreateMapPresenter.MyView.class, CreateMapView.class,
-                CreateMapPresenter.MyProxy.class);
-        bindPresenter(EditMapPresenter.class, EditMapPresenter.MyView.class, EditMapView.class,
-                EditMapPresenter.MyProxy.class);
+        bindPresenter(MapPresenter.class, MapPresenter.MyView.class, MapView.class,
+                MapPresenter.MyProxy.class);
     }
 }

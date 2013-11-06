@@ -16,17 +16,21 @@
 
 package com.mg.search.client.application;
 
-import com.mg.search.client.application.home.HomeModule;
-import com.mg.search.client.application.map.MapModule;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
+import com.mg.search.client.application.map.MapModule;
+import com.mg.search.client.application.map.MapResizeDialogPresenterWidget;
+import com.mg.search.client.application.map.MapResizeDialogView;
 
 public class ApplicationModule extends AbstractPresenterModule {
     @Override
     protected void configure() {
-        install(new HomeModule());
         install(new MapModule());
 
         bindPresenter(ApplicationPresenter.class, ApplicationPresenter.MyView.class, ApplicationView.class,
                 ApplicationPresenter.MyProxy.class);
+        
+        bindSingletonPresenterWidget(MapResizeDialogPresenterWidget.class, MapResizeDialogPresenterWidget.MyView.class,
+                MapResizeDialogView.class);
+
     }
 }

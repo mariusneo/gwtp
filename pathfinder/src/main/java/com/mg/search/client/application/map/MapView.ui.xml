@@ -10,6 +10,7 @@
             margin-right: 5px;
             font : 14px arial, sans-serif;
             font-weight: bold;
+            width: 100px;
         }
         
         .speedajuster{
@@ -18,34 +19,40 @@
 	</ui:style>
 
 	<g:HTMLPanel>
-		<h1>Edit map</h1>
+		<h1>A* search showcase</h1>
+	
+		<p>The purpose of the project is to show how the algorithm works in practice based on the explanations provided here :
+		<a href="http://www.policyalmanac.org/games/aStarTutorial.htm">http://www.policyalmanac.org/games/aStarTutorial.htm</a> 
+		</p>
+		
+		<p>The source code of the project can be found on <a href="https://github.com/mariusneo/gwtp/tree/master/pathfinder">GitHub</a>.</p>
 
 		<div style="margin-bottom: 10px;margin-left :2px;height:50px;">
 			<g:Label styleName="{style.labelStyle}">Toggle</g:Label>
 
 
 			<g:ToggleButton ui:field="toggleCellButton" styleName="toggleButton" title="Cell">
-				<g:upFace image='{resource.cell}' >				
+				<g:upFace image='{resource.cellBig}' >				
 				</g:upFace>
-				<g:downFace image='{resource.cell}' />
+				<g:downFace image='{resource.cellBig}' />
 			</g:ToggleButton>
 			
 			<g:ToggleButton ui:field="toggleBlockButton" styleName="toggleButton" title="Block">
-				<g:upFace image='{resource.block}'>				
+				<g:upFace image='{resource.blockBig}'>				
 				</g:upFace>
-				<g:downFace image='{resource.block}'/>
+				<g:downFace image='{resource.blockBig}'/>
 			</g:ToggleButton>
 			
 			<g:ToggleButton ui:field="toggleFromButton" styleName="toggleButton" title="Start">
-				<g:upFace image='{resource.from}'>				
+				<g:upFace image='{resource.fromBig}'>				
 				</g:upFace>
-				<g:downFace image='{resource.from}'/>
+				<g:downFace image='{resource.fromBig}'/>
 			</g:ToggleButton>
 			
 			<g:ToggleButton ui:field="toggleToButton" styleName="toggleButton" title="Destination">
-				<g:upFace image='{resource.to}'>				
+				<g:upFace image='{resource.toBig}'>				
 				</g:upFace>
-				<g:downFace image='{resource.to}'/>
+				<g:downFace image='{resource.toBig}'/>
 			</g:ToggleButton>
 			
 			<div style="clear:both;"></div>
@@ -56,11 +63,16 @@
 			<s:SpeedAjuster ui:field="speedAjuster" styleName="{style.speedajuster}"/>
 			<div style="clear:both;"></div>
 		</div>
+
+		<div style="margin-bottom:10px; margin-left:2px;">
+			<g:Button ui:field="findPathButton" debugId="findPathBtn">Find path</g:Button>
+			<g:Button ui:field="resetButton" debugId="resetBtn">Reset</g:Button>
+			<g:Button ui:field="resizeMapButton" debugId="mapResizeBtn">Resize map</g:Button>
+		</div>
+
 		 
 		<g:HTMLPanel ui:field="gridPanel">
 		</g:HTMLPanel>
 		
-		<g:Button ui:field="findPathButton" debugId="findPathBtn">Find path</g:Button>
-		<g:Button ui:field="resetButton" debugId="resetBtn">Reset</g:Button>
 	</g:HTMLPanel>
 </ui:UiBinder>
