@@ -25,20 +25,39 @@ import com.gwtplatform.mvp.client.annotations.ContentSlot;
 import com.gwtplatform.mvp.client.annotations.ProxyStandard;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
+import com.gwtplatform.mvp.client.proxy.RevealRootLayoutContentEvent;
+import com.mg.search.client.application.widget.message.MessagesPresenter;
 
 public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView, ApplicationPresenter.MyProxy> {
     public interface MyView extends View {
     }
 
     @ContentSlot
-    public static final Type<RevealContentHandler<?>> SLOT_SetMainContent = new Type<RevealContentHandler<?>>();
+    public static final Type<RevealContentHandler<?>> SLOT_MAIN_CONTENT = new Type<RevealContentHandler<?>>();
+
+    public static final Object SLOT_MESSAGES_CONTENT = new Object();
 
     @ProxyStandard
     public interface MyProxy extends Proxy<ApplicationPresenter> {
     }
 
+    private final MessagesPresenter messagesPresenter;
+
     @Inject
-    public ApplicationPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
+    public ApplicationPresenter(EventBus eventBus, MyView view, MyProxy proxy,
+            MessagesPresenter messagesPresenter) {
         super(eventBus, view, proxy, RevealType.Root);
+        this.messagesPresenter = messagesPresenter;
+    }
+
+    @Override
+    protected void revealInParent() {
+        RevealRootLayoutContentEvent.fire(this, this);
+    }
+
+    @Override
+    protected void onBind() {
+        setInSlot(SLOT_MESSAGES_CONTENT, messagesPresenter);
+
     }
 }

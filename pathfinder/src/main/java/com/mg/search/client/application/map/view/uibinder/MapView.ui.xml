@@ -21,6 +21,8 @@
 	<g:HTMLPanel>
 		<h1>A* search showcase</h1>
 	
+		<br/>
+		<br/>
 		<p>The purpose of the project is to show how the algorithm works in practice based on the explanations provided here :
 		<a href="http://www.policyalmanac.org/games/aStarTutorial.htm">http://www.policyalmanac.org/games/aStarTutorial.htm</a> 
 		</p>

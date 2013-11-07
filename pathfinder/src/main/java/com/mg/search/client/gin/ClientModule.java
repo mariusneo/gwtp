@@ -22,6 +22,7 @@ import com.gwtplatform.mvp.client.annotations.UnauthorizedPlace;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 import com.gwtplatform.mvp.client.gin.DefaultModule;
 import com.mg.search.client.application.ApplicationModule;
+import com.mg.search.client.application.widget.message.MessagesModule;
 import com.mg.search.client.place.NameTokens;
 import com.mg.search.client.resources.ResourceLoader;
 
@@ -34,6 +35,7 @@ public class ClientModule extends AbstractPresenterModule {
     protected void configure() {
         install(new DefaultModule());
         install(new ApplicationModule());
+        install(new MessagesModule());
 
         // DefaultPlaceManager Places
         bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.HOME);

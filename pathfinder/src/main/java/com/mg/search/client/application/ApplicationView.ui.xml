@@ -1,4 +1,26 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-    <g:SimplePanel ui:field="main"/>
+        <ui:style>
+        .globalWrapper {
+            position: relative;
+        }
+
+        .messagesWrapper {
+            width: 300px;
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            margin-left: -150px;
+        }
+
+    </ui:style>
+
+    <g:HTMLPanel styleName="{style.globalWrapper}">
+
+        <g:SimplePanel ui:field="messages" styleName="{style.messagesWrapper}"/>
+
+        <g:SimplePanel ui:field="main"/>
+    </g:HTMLPanel>
 </ui:UiBinder>
+
+

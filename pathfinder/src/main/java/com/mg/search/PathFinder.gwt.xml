@@ -16,6 +16,9 @@
     
     <inherits name='com.kiouri.sliderbar.SliderBarMVP'/>
 
+	<inherits name="com.google.gwt.query.Query"/>
+
+
 	<set-configuration-property name="CssResource.style" value="pretty"/>
 
     <source path='client' />

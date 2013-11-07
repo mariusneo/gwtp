@@ -32,6 +32,9 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
     @UiField
     SimplePanel main;
 
+    @UiField
+    SimplePanel messages;
+
     @Inject
     public ApplicationView(Binder uiBinder) {
         initWidget(uiBinder.createAndBindUi(this));
@@ -39,10 +42,10 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
 
     @Override
     public void setInSlot(Object slot, IsWidget content) {
-        if (slot == ApplicationPresenter.SLOT_SetMainContent) {
+        if (slot == ApplicationPresenter.SLOT_MAIN_CONTENT) {
             main.setWidget(content);
-        } else {
-            super.setInSlot(slot, content);
+        } else if (slot == ApplicationPresenter.SLOT_MESSAGES_CONTENT) {
+            messages.setWidget(content);
         }
     }
 }

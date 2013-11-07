@@ -30,7 +30,9 @@ import com.mg.search.client.application.ApplicationPresenter;
 import com.mg.search.client.application.map.MapUiHandlers;
 import com.mg.search.client.application.map.Square;
 import com.mg.search.client.application.map.service.AStarSearchService;
-import com.mg.search.client.application.map.service.AStarSearchService.FindPathCallback;
+import com.mg.search.client.application.widget.message.Message;
+import com.mg.search.client.application.widget.message.MessageStyle;
+import com.mg.search.client.application.widget.message.MessagesPresenter;
 import com.mg.search.client.place.NameTokens;
 
 public class MapPresenter extends Presenter<MapPresenter.MyView, MapPresenter.MyProxy> implements
@@ -95,12 +97,16 @@ public class MapPresenter extends Presenter<MapPresenter.MyView, MapPresenter.My
      */
     private Boolean serviceTimerCancelled;
 
-    private MapResizeDialogPresenterWidget mapResizeDialog;
+    private final MapResizeDialogPresenterWidget mapResizeDialog;
     
+    private final MessagesPresenter messagesPresenter;
+
     @Inject
-    public MapPresenter(EventBus eventBus, MyView view, MyProxy proxy, MapResizeDialogPresenterWidget mapResizeDialog) {
-        super(eventBus, view, proxy, ApplicationPresenter.SLOT_SetMainContent);
+    public MapPresenter(EventBus eventBus, MyView view, MyProxy proxy,
+            MapResizeDialogPresenterWidget mapResizeDialog, MessagesPresenter messagesPresenter) {
+        super(eventBus, view, proxy, ApplicationPresenter.SLOT_MAIN_CONTENT);
         this.mapResizeDialog = mapResizeDialog;
+        this.messagesPresenter = messagesPresenter;
         getView().setUiHandlers(this);
     }
 
@@ -224,6 +230,8 @@ public class MapPresenter extends Presenter<MapPresenter.MyView, MapPresenter.My
             @Override
             public void onPathNotFound() {
                 if (!isServiceTimerCancelled()) {
+                    messagesPresenter.displayMessage(new Message("Path not found", MessageStyle.ERROR));
+
                     getView().setFindPathButtonEnabled(true);
                     getView().setResizeMapButtonEnabled(true);
                 }
@@ -246,13 +254,14 @@ public class MapPresenter extends Presenter<MapPresenter.MyView, MapPresenter.My
     }
 
     private void resetPath() {
-        if (path != null) {
-            getView().resetPath();
+        getView().resetPath();
+        if (fromCell != null) {
             getView().setCellFrom(fromCell.getRow(), fromCell.getColumn());
-            getView().setCellTo(toCell.getRow(), toCell.getColumn());
-            path = null;
         }
-
+        if (toCell != null) {
+            getView().setCellTo(toCell.getRow(), toCell.getColumn());
+        }
+        path = null;
     }
 
     @Override

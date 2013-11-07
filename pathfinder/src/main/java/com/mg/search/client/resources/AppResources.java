@@ -39,6 +39,14 @@ public interface AppResources extends ClientBundle{
         String closedCell();
         
         String pathCell();
+
+        String success();
+
+        String error();
+
+        String message();
+
+        String close();
     }
     
     Styles styles();
